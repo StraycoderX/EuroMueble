@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tu cesta · Euromueble</title>
+<meta name="description" content="Revisa tu cesta de Euromueble y tramita el pedido con transporte y montaje en toda Canarias.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#08090b">
+<link rel="icon" href="https://euromueble.es/media/favicon/stores/1/ANAGRAMA-OK.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://euromueble.es">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('em.theme')||'dark'}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<div class="ambient" aria-hidden="true">
+  <div class="ambient__grid"></div>
+  <div class="ambient__orb ambient__orb--1"></div>
+</div>
+
+<div data-layout="header"></div>
+
+<main id="main">
+  <div class="pagehead">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Migas de pan">
+        <a href="index.html">Inicio</a>
+        <span data-icon="right"></span>
+        <span>Cesta</span>
+      </nav>
+      <h1 style="font-size:clamp(2rem,4.5vw,3.2rem);margin-top:14px">Tu cesta</h1>
+    </div>
+  </div>
+
+  <div class="wrap cartpage">
+    <div class="panel">
+      <div data-lines></div>
+      <div class="between" style="margin-top:22px" data-actions>
+        <a class="iconlink" href="catalogo.html"><span data-icon="left"></span> Seguir comprando</a>
+        <button class="iconlink" data-empty><span data-icon="trash"></span> Vaciar cesta</button>
+      </div>
+    </div>
+
+    <aside class="panel panel--sticky">
+      <h2 style="font-size:1.25rem;margin-bottom:18px">Resumen</h2>
+
+      <div class="ship" style="margin-bottom:18px">
+        <span data-ship-msg2></span>
+        <div class="ship__bar"><div class="ship__fill" data-ship-fill2></div></div>
+      </div>
+
+      <div class="totals">
+        <div class="totals__row"><span>Subtotal</span><span data-sub>0,00 €</span></div>
+        <div class="totals__row"><span>Transporte y montaje</span><span data-ship>Según condiciones</span></div>
+        <div class="totals__row"><span>Impuestos</span><span>IGIC incluido</span></div>
+        <div class="totals__row totals__row--sum"><span>Total</span><span data-total>0,00 €</span></div>
+      </div>
+
+      <button class="btn btn--primary btn--block btn--lg" style="margin-top:20px" data-checkout>
+        Tramitar pedido <span data-icon="arrow"></span>
+      </button>
+
+      <div class="trust" style="margin-top:20px;grid-template-columns:1fr">
+        <div class="trust__i"><span data-icon="shield"></span>
+          <div><b>Compra segura</b><span>Datos cifrados y pago protegido</span></div></div>
+        <div class="trust__i"><span data-icon="card"></span>
+          <div><b>Financiación</b><span>Hasta 12 meses sin intereses*</span></div></div>
+        <div class="trust__i"><span data-icon="phone"></span>
+          <div><b>¿Dudas?</b><span data-phone-txt></span></div></div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="section wrap" style="padding-top:0">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Antes de terminar</span>
+        <h2>Quizá te falte algo</h2>
+      </div>
+      <div class="railnav">
+        <button class="btn btn--icon" data-rail-prev="rail-x" aria-label="Anterior"><span data-icon="left"></span></button>
+        <button class="btn btn--icon" data-rail-next="rail-x" aria-label="Siguiente"><span data-icon="right"></span></button>
+      </div>
+    </div>
+    <div class="rail" id="rail-x" data-cross></div>
+  </section>
+</main>
+
+<div data-layout="footer"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/carrito.js"></script>
+</body>
+</html>

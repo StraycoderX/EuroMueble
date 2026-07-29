@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Catálogo · Euromueble</title>
+<meta name="description" content="Explora el catálogo completo de Euromueble: sofás, dormitorios, descanso, comedores, jardín, electrodomésticos y decoración con envío a toda Canarias.">
+<meta name="theme-color" content="#08090b">
+<link rel="icon" href="https://euromueble.es/media/favicon/stores/1/ANAGRAMA-OK.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://euromueble.es">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('em.theme')||'dark'}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<div class="ambient" aria-hidden="true">
+  <div class="ambient__grid"></div>
+  <div class="ambient__orb ambient__orb--1"></div>
+  <div class="ambient__orb ambient__orb--2"></div>
+</div>
+
+<div data-layout="header" data-active="Catálogo"></div>
+
+<main id="main">
+
+  <div class="pagehead">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Migas de pan">
+        <a href="index.html">Inicio</a>
+        <span data-icon="right"></span>
+        <span data-crumb>Catálogo</span>
+      </nav>
+      <h1 style="font-size:clamp(2rem,4.5vw,3.2rem);margin-top:14px" data-title>Catálogo</h1>
+      <p class="lead" style="margin-top:10px" data-subtitle>
+        Todo nuestro surtido, con transporte y montaje incluidos según condiciones.
+      </p>
+    </div>
+  </div>
+
+  <div class="wrap shop">
+
+    <!-- ============ Filtros ============ -->
+    <aside class="filters" id="filters" aria-label="Filtros">
+      <div class="between" style="margin-bottom:8px">
+        <h2 style="font-size:1rem">Filtros</h2>
+        <button class="iconlink" data-clear>Limpiar</button>
+        <button class="iconbtn hide" data-filters-close aria-label="Cerrar filtros"
+                style="display:none"><span data-icon="close"></span></button>
+      </div>
+
+      <div class="fgroup">
+        <h3>Familia</h3>
+        <div class="fgroup__list" data-f-cat></div>
+      </div>
+
+      <div class="fgroup hide" data-sub-group>
+        <h3>Tipo</h3>
+        <div class="fgroup__list" data-f-sub></div>
+      </div>
+
+      <div class="fgroup">
+        <h3>Precio</h3>
+        <div class="range">
+          <div class="range__vals">
+            <span data-price-min>0 €</span>
+            <span data-price-max>0 €</span>
+          </div>
+          <input type="range" data-r-min aria-label="Precio mínimo">
+          <input type="range" data-r-max aria-label="Precio máximo">
+        </div>
+      </div>
+
+      <div class="fgroup">
+        <h3>Disponibilidad</h3>
+        <div class="fgroup__list">
+          <label class="check"><input type="checkbox" data-f-stock> En stock</label>
+          <label class="check"><input type="checkbox" data-f-tag="entrega-inmediata"> Entrega inmediata</label>
+        </div>
+      </div>
+
+      <div class="fgroup" style="border:0">
+        <h3>Selecciones</h3>
+        <div class="fgroup__list">
+          <label class="check"><input type="checkbox" data-f-tag="oferta"> Con descuento</label>
+          <label class="check"><input type="checkbox" data-f-tag="novedad"> Novedades</label>
+          <label class="check"><input type="checkbox" data-f-tag="primer-precio"> Primer precio</label>
+          <label class="check"><input type="checkbox" data-f-fav> Mis favoritos</label>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ Resultados ============ -->
+    <div>
+      <div class="toolbar">
+        <div class="center">
+          <button class="btn btn--sm" data-filters-open style="display:none">
+            <span data-icon="sliders"></span> Filtros
+          </button>
+          <span class="muted" style="font-size:.85rem"><b data-count>0</b> productos</span>
+        </div>
+        <div class="center">
+          <label class="muted" for="sort" style="font-size:.85rem">Ordenar</label>
+          <select class="select" id="sort" data-sort style="width:auto;min-width:190px">
+            <option value="rel">Destacados</option>
+            <option value="asc">Precio: de menor a mayor</option>
+            <option value="desc">Precio: de mayor a menor</option>
+            <option value="new">Novedades primero</option>
+            <option value="az">Nombre A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="chips" data-chips></div>
+      <div class="pgrid" data-results></div>
+    </div>
+  </div>
+
+</main>
+
+<div data-layout="footer"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/catalogo.js"></script>
+</body>
+</html>

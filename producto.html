@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Producto · Euromueble</title>
+<meta name="description" content="Ficha de producto de Euromueble: precio, disponibilidad, entrega y montaje en toda Canarias.">
+<meta name="theme-color" content="#08090b">
+<link rel="icon" href="https://euromueble.es/media/favicon/stores/1/ANAGRAMA-OK.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://euromueble.es">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('em.theme')||'dark'}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<div class="ambient" aria-hidden="true">
+  <div class="ambient__grid"></div>
+  <div class="ambient__orb ambient__orb--1"></div>
+  <div class="ambient__orb ambient__orb--2"></div>
+</div>
+
+<div data-layout="header"></div>
+
+<main id="main">
+  <div class="wrap" style="padding-top:24px">
+    <nav class="crumbs" aria-label="Migas de pan" data-crumbs></nav>
+  </div>
+
+  <div class="wrap pdp" data-pdp>
+    <!-- Contenido inyectado por producto.js -->
+  </div>
+
+  <section class="section wrap" style="padding-top:0">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">También te puede encajar</span>
+        <h2>Productos relacionados</h2>
+      </div>
+      <div class="railnav">
+        <button class="btn btn--icon" data-rail-prev="rail-rel" aria-label="Anterior"><span data-icon="left"></span></button>
+        <button class="btn btn--icon" data-rail-next="rail-rel" aria-label="Siguiente"><span data-icon="right"></span></button>
+      </div>
+    </div>
+    <div class="rail" id="rail-rel" data-related></div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:var(--section)">
+    <div class="services" data-services></div>
+  </section>
+</main>
+
+<div data-layout="footer"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/producto.js"></script>
+</body>
+</html>

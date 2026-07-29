@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nuestras tiendas · Euromueble</title>
+<meta name="description" content="Visita Euromueble en Canarias: dirección, horarios y teléfono. Más de 145 mesas y 120 armarios expuestos.">
+<meta name="theme-color" content="#08090b">
+<link rel="icon" href="https://euromueble.es/media/favicon/stores/1/ANAGRAMA-OK.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://euromueble.es">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('em.theme')||'dark'}catch(e){}</script>
+</head>
+
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<div class="ambient" aria-hidden="true">
+  <div class="ambient__grid"></div>
+  <div class="ambient__orb ambient__orb--1"></div>
+  <div class="ambient__orb ambient__orb--3"></div>
+</div>
+
+<div data-layout="header" data-active="Tiendas"></div>
+
+<main id="main">
+  <div class="pagehead">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Migas de pan">
+        <a href="index.html">Inicio</a>
+        <span data-icon="right"></span>
+        <span>Nuestras tiendas</span>
+      </nav>
+      <h1 style="font-size:clamp(2rem,4.5vw,3.2rem);margin-top:14px">Ven a verlo en persona</h1>
+      <p class="lead" style="margin-top:10px">
+        Más de <b>145 mesas</b> y <b>120 armarios</b> diferentes expuestos. Te asesoramos sin compromiso
+        y preparamos la entrega con montaje en toda Canarias.
+      </p>
+    </div>
+  </div>
+
+  <section class="section wrap" style="padding-top:40px">
+    <div class="stores" data-stores></div>
+  </section>
+
+  <section class="wrap">
+    <div class="storecard">
+      <div class="storecard__body">
+        <span class="eyebrow">Antes de venir</span>
+        <h2 style="font-size:clamp(1.6rem,3vw,2.4rem)">Te lo preparamos</h2>
+        <p class="muted">Llámanos o escríbenos por WhatsApp y tenemos el artículo listo para que solo
+          tengas que verlo. También resolvemos dudas de medidas, acabados y plazos de entrega.</p>
+        <div class="center wrapx">
+          <a class="btn btn--primary" data-phone href="#"></a>
+          <a class="btn btn--ghost" data-wa href="#"><span data-icon="whatsapp"></span> WhatsApp</a>
+        </div>
+      </div>
+      <div class="storecard__img">
+        <img src="https://euromueble.es/media//wysiwyg/bloque01/nuestras-tiendas.jpg"
+             alt="Exposición de Euromueble" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="services" data-services></div>
+  </section>
+</main>
+
+<div data-layout="footer"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/layout.js"></script>
+<script src="assets/js/tiendas.js"></script>
+</body>
+</html>
