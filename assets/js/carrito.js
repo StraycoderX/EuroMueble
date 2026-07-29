@@ -92,7 +92,5 @@
     const tel = $('[data-phone-txt]');
     if (tel) tel.textContent = EM.config.phone;
   }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  EM.definePage('carrito', init);
 })(window.EM);

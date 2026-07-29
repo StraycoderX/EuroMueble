@@ -115,7 +115,5 @@
     services();
     store();
   }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  EM.definePage('home', init);
 })(window.EM);

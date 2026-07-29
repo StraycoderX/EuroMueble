@@ -79,7 +79,7 @@
         '</div>' +
 
         (p.stock
-          ? '<p class="center" style="font-size:.85rem;color:var(--cyan)">' + EM.icon('check') +
+          ? '<p class="center" style="font-size:.85rem;color:var(--ok)">' + EM.icon('check') +
             'Disponible · te lo llevamos y montamos en toda Canarias</p>'
           : '<p class="center muted" style="font-size:.85rem">' + EM.icon('clock') +
             'Consulta disponibilidad y plazo en tienda o por teléfono</p>') +
@@ -197,7 +197,5 @@
       localStorage.setItem(key, JSON.stringify(seen.slice(0, 12)));
     } catch (_) {}
   }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  EM.definePage('producto', init);
 })(window.EM);

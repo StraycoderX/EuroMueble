@@ -234,7 +234,8 @@ window.EM = window.EM || {};
     init() {
       let saved;
       try { saved = localStorage.getItem(THEME_KEY); } catch (_) {}
-      EM.theme.set(saved || 'dark');
+      const light = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+      EM.theme.set(saved || (light ? 'light' : 'dark'));
     }
   };
 
@@ -392,6 +393,8 @@ window.EM = window.EM || {};
      --------------------------------------------------------------------- */
   function initRails() {
     $$('[data-rail-prev], [data-rail-next]').forEach(btn => {
+      if (btn.dataset.bound) return;
+      btn.dataset.bound = '1';
       btn.addEventListener('click', () => {
         const id = btn.getAttribute('data-rail-prev') || btn.getAttribute('data-rail-next');
         const rail = document.getElementById(id);
@@ -442,7 +445,8 @@ window.EM = window.EM || {};
       if (!el.innerHTML.trim()) el.innerHTML = EM.icon(el.getAttribute('data-icon'));
     });
     const nl = $('[data-newsletter]');
-    if (nl) {
+    if (nl && !nl.dataset.bound) {
+      nl.dataset.bound = '1';
       nl.addEventListener('submit', e => {
         e.preventDefault();
         const email = $('input[type=email]', nl);
@@ -456,14 +460,30 @@ window.EM = window.EM || {};
   /* ---------------------------------------------------------------------
      Arranque
      --------------------------------------------------------------------- */
-  EM.initUI = function () {
-    EM.theme.init();
-    initHeader();
-    initSearch();
+  /* Vuelve a preparar el contenido de la página. Se llama al arrancar y,
+     en la vista de una sola página, cada vez que cambia la sección. */
+  EM.refresh = function () {
     initRails();
     initReveal();
     initTemplating();
     EM.initAccordions();
+  };
+
+  /* Registra el script de una página. Sólo arranca si su marcado está
+     presente, de modo que todos pueden convivir en un mismo documento. */
+  EM.definePage = function (name, init) {
+    EM.pages = EM.pages || {};
+    EM.pages[name] = init;
+    const boot = () => { if (document.querySelector('[data-page="' + name + '"]')) init(); };
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  };
+
+  EM.initUI = function () {
+    EM.theme.init();
+    initHeader();
+    initSearch();
+    EM.refresh();
   };
 
   if (document.readyState === 'loading') {

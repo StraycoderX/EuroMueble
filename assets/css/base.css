@@ -9,7 +9,8 @@
   --brand: #ff7645;
   --brand-soft: #ffb169;
   --brand-deep: #d9481c;
-  --cyan: #5fe3dc;
+  --cyan: #5fe3dc;        /* decorativo: fondos de etiqueta y puntos */
+  --ok: #5fe3dc;          /* estado "disponible" sobre texto */
   --violet: #9a7cf5;
 
   /* Superficies (tema oscuro por defecto) */
@@ -60,6 +61,7 @@
 }
 
 [data-theme='light'] {
+  --ok: #0b7d76;          /* legible sobre fondo claro */
   --bg: #f7f5f1;
   --bg-2: #ffffff;
   --panel: rgba(12, 10, 8, 0.035);

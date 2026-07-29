@@ -24,13 +24,13 @@
      URL → estado
      --------------------------------------------------------------------- */
   function fromURL() {
-    const p = new URLSearchParams(location.search);
-    if (p.get('cat')) state.cats = p.get('cat').split(',');
-    if (p.get('sub')) state.subs = p.get('sub').split(',');
-    if (p.get('tag')) state.tags = p.get('tag').split(',');
-    if (p.get('q')) state.q = p.get('q');
-    if (p.get('fav')) state.fav = true;
-    if (p.get('sort')) state.sort = p.get('sort');
+    const get = EM.qs;
+    if (get('cat')) state.cats = get('cat').split(',');
+    if (get('sub')) state.subs = get('sub').split(',');
+    if (get('tag')) state.tags = get('tag').split(',');
+    if (get('q')) state.q = get('q');
+    if (get('fav')) state.fav = true;
+    if (get('sort')) state.sort = get('sort');
   }
 
   function toURL() {
@@ -303,7 +303,5 @@
     bind();
     render();
   }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  EM.definePage('catalogo', init);
 })(window.EM);

@@ -313,17 +313,26 @@ window.EM = window.EM || {};
       const cat = EM.products.filter(p => p.id !== product.id && p.cat === product.cat && same.indexOf(p) < 0);
       return same.concat(cat).slice(0, limit || 8);
     },
+    /* Sin acentos ni mayúsculas: en español casi nadie los teclea al buscar */
+    norm(s) {
+      return String(s == null ? '' : s)
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[̀-ͯ]/g, '');
+    },
+
     search(q) {
-      const t = (q || '').trim().toLowerCase();
+      const t = EM.data.norm(q).trim();
       if (t.length < 2) return [];
       const words = t.split(/\s+/);
       return EM.products
         .map(p => {
-          const hay = (p.name + ' ' + p.sub + ' ' + EM.data.catName(p.cat)).toLowerCase();
+          const name = EM.data.norm(p.name);
+          const hay = name + ' ' + EM.data.norm(p.sub) + ' ' + EM.data.norm(EM.data.catName(p.cat));
           let score = 0;
           words.forEach(w => {
             if (hay.indexOf(w) > -1) score += 2;
-            if (p.name.toLowerCase().indexOf(w) === 0) score += 3;
+            if (name.indexOf(w) === 0) score += 3;
           });
           return { p, score };
         })

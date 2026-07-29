@@ -65,7 +65,5 @@
   }
 
   function init() { stores(); contact(); services(); }
-
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  EM.definePage('tiendas', init);
 })(window.EM);
