@@ -421,6 +421,92 @@ window.EM = window.EM || {};
   }
 
   /* ---------------------------------------------------------------------
+     Foco que sigue al cursor e inclinación de las piezas grandes
+     --------------------------------------------------------------------- */
+  const POINTER_SEL = '.pcard, .tile, .service, .store';
+  let pending = null;
+
+  function initPointer() {
+    if (!window.matchMedia || !window.matchMedia('(hover: hover)').matches) return;
+    if (document.body.dataset.pointerBound) return;
+    document.body.dataset.pointerBound = '1';
+
+    document.addEventListener('pointermove', e => {
+      const el = e.target.closest && e.target.closest(POINTER_SEL);
+      if (!el) return;
+      pending = { el, x: e.clientX, y: e.clientY };
+      requestAnimationFrame(paint);
+    }, { passive: true });
+
+    document.addEventListener('pointerleave', e => {
+      const el = e.target.closest && e.target.closest('.tile');
+      if (el) { el.style.setProperty('--rx', '0deg'); el.style.setProperty('--ry', '0deg'); }
+    }, true);
+  }
+
+  function paint() {
+    if (!pending) return;
+    const { el, x, y } = pending;
+    pending = null;
+    const r = el.getBoundingClientRect();
+    const px = (x - r.left) / r.width;
+    const py = (y - r.top) / r.height;
+    el.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
+    el.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+    if (el.classList.contains('tile')) {
+      el.style.setProperty('--ry', ((px - 0.5) * 7).toFixed(2) + 'deg');
+      el.style.setProperty('--rx', ((0.5 - py) * 7).toFixed(2) + 'deg');
+    }
+  }
+
+  /* ---------------------------------------------------------------------
+     Titulares partidos en palabras y contadores
+     --------------------------------------------------------------------- */
+  /* Parte por palabras leyendo texto plano: nunca puede romper el marcado.
+     El índice sigue corriendo entre líneas para que entren escalonadas. */
+  function initSplit() {
+    let i = 0;
+    $$('[data-split]').forEach(el => {
+      if (el.dataset.done) return;
+      el.dataset.done = '1';
+      el.innerHTML = el.textContent.trim().split(/\s+/).map(w =>
+        '<span class="split-word" style="--i:' + (i++) + '">' + EM.esc(w) + '</span>').join(' ');
+    });
+  }
+
+  /* Cuenta hasta el valor final: da sensación de dato vivo, no de adorno */
+  function initCounters() {
+    $$('[data-count-to]').forEach(el => {
+      if (el.dataset.done) return;
+      el.dataset.done = '1';
+      const target = parseFloat(el.getAttribute('data-count-to'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      if (!isFinite(target)) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        el.textContent = target + suffix;
+        return;
+      }
+      const run = () => {
+        const t0 = performance.now();
+        const dur = 1400;
+        const step = now => {
+          const p = Math.min(1, (now - t0) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(en => { if (en.isIntersecting) { run(); io.disconnect(); } });
+        }, { threshold: 0.4 });
+        io.observe(el);
+      } else { run(); }
+    });
+  }
+
+  /* ---------------------------------------------------------------------
      Acordeones genéricos
      --------------------------------------------------------------------- */
   EM.initAccordions = function (root) {
@@ -466,6 +552,8 @@ window.EM = window.EM || {};
     initRails();
     initReveal();
     initTemplating();
+    initSplit();
+    initCounters();
     EM.initAccordions();
   };
 
@@ -483,6 +571,7 @@ window.EM = window.EM || {};
     EM.theme.init();
     initHeader();
     initSearch();
+    initPointer();
     EM.refresh();
   };
 

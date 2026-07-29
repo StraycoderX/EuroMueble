@@ -20,6 +20,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/app.css">
+<link rel="stylesheet" href="assets/css/motion.css">
 <script>try{document.documentElement.dataset.theme=localStorage.getItem('em.theme')||'dark'}catch(e){}</script>
 
 <script type="application/ld+json">
@@ -72,26 +73,42 @@
   <!-- ================= Hero ================= -->
   <section class="hero">
     <div class="wrap hero__grid">
-      <div data-reveal>
-        <span class="pill pill--live">Nuevo folleto de temporada disponible</span>
-        <h1 class="grad-text">Tu casa,<em>a otro nivel.</em></h1>
-        <p class="lead">Muebles y descanso en Canarias desde hace décadas. Elige online o ven a verlo:
-          más de <b>145 mesas</b> y <b>120 armarios</b> diferentes expuestos en tienda,
-          con transporte y montaje incluidos según condiciones.</p>
+      <div>
+        <span class="pill pill--live fade-up">Nuevo folleto de temporada disponible</span>
 
-        <div class="hero__cta">
-          <a class="btn btn--primary btn--lg" href="catalogo.html">Explorar catálogo <span data-icon="arrow"></span></a>
-          <a class="btn btn--lg btn--ghost" href="tiendas.html"><span data-icon="store"></span> Visitar la tienda</a>
+        <h1>
+          <span class="split-line" data-split>Tu casa,</span>
+          <span class="split-line thin" data-split>a otro nivel.</span>
+        </h1>
+
+        <p class="lead fade-up" style="--delay:520ms">Muebles y descanso en Canarias desde hace décadas.
+          Elige online o ven a verlo: más de <b>145 mesas</b> y <b>120 armarios</b> diferentes expuestos
+          en tienda, con transporte y montaje incluidos según condiciones.</p>
+
+        <div class="hero__cta fade-up" style="--delay:620ms">
+          <a class="btn btn--primary btn--lg btn--ring" href="catalogo.html">
+            Explorar catálogo <span data-icon="arrow"></span></a>
+          <a class="btn btn--lg btn--ghost" href="tiendas.html">
+            <span data-icon="store"></span> Visitar la tienda</a>
         </div>
 
-        <div class="hero__stats">
-          <div class="hero__stat"><b>145+</b><span>mesas expuestas</span></div>
-          <div class="hero__stat"><b>120+</b><span>armarios diferentes</span></div>
-          <div class="hero__stat"><b>0 €</b><span>transporte y montaje*</span></div>
+        <div class="hero__stats fade-up" style="--delay:720ms">
+          <div class="hero__stat">
+            <b data-count-to="145" data-suffix="+">145+</b>
+            <span>mesas expuestas</span>
+          </div>
+          <div class="hero__stat">
+            <b data-count-to="120" data-suffix="+">120+</b>
+            <span>armarios diferentes</span>
+          </div>
+          <div class="hero__stat">
+            <b>0 €</b>
+            <span>transporte y montaje*</span>
+          </div>
         </div>
       </div>
 
-      <div class="hero__visual" data-reveal style="--delay:120ms">
+      <div class="hero__visual fade-up" style="--delay:300ms">
         <div class="hero__frame">
           <img src="https://euromueble.es/pub/media/wysiwyg/banners/family_2.jpg"
                alt="Salón amueblado por Euromueble" fetchpriority="high" decoding="async">
@@ -106,11 +123,16 @@
         </div>
       </div>
     </div>
+
+    <div class="wrap" style="margin-top:clamp(28px,5vw,56px)">
+      <span class="scrollcue"><span class="scrollcue__line"></span> Sigue bajando</span>
+    </div>
   </section>
 
-  <!-- ================= Ticker ================= -->
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker__track" data-ticker></div>
+  <!-- ================= Cinta ================= -->
+  <div class="kinetic">
+    <div class="kinetic__row" data-kinetic-top></div>
+    <div class="kinetic__row kinetic__row--back" data-kinetic-bottom></div>
   </div>
 
   <!-- ================= Categorías ================= -->

@@ -19,12 +19,24 @@
     ['shield', 'IGIC incluido en el precio']
   ];
 
+  /* Dos carriles en sentidos opuestos: arriba las ventajas, abajo las
+     familias, que además son enlaces útiles. */
   function ticker() {
-    const box = $('[data-ticker]');
-    if (!box) return;
-    const one = TICKER.map(t =>
-      '<span class="ticker__item">' + EM.icon(t[0]) + t[1] + '</span>').join('');
-    box.innerHTML = one + one; // duplicado para bucle continuo
+    const top = $('[data-kinetic-top]');
+    if (top) {
+      const one = TICKER.map(t =>
+        '<span class="kinetic__item">' + EM.icon(t[0]) + t[1] +
+        '<span class="kinetic__sep">◆</span></span>').join('');
+      top.innerHTML = one + one;
+    }
+
+    const bottom = $('[data-kinetic-bottom]');
+    if (bottom) {
+      const one = EM.categories.map(c =>
+        '<a class="kinetic__item" href="catalogo.html?cat=' + c.slug + '">' +
+        EM.esc(c.name) + '<span class="kinetic__sep">/</span></a>').join('');
+      bottom.innerHTML = one + one;
+    }
   }
 
   /* ---------------------------------------------------------------------

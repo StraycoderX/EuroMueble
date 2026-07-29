@@ -1,0 +1,256 @@
+/* =========================================================================
+   Euromueble · Movimiento
+   Transiciones de vista, animaciones ligadas al scroll, foco que sigue al
+   cursor e inclinación 3D. Todo es mejora progresiva: si el navegador no
+   lo soporta, la página se ve igual pero quieta.
+   ========================================================================= */
+
+/* =========================================================================
+   1. Transición entre páginas
+   En la web multipágina la resuelve el navegador; en la vista previa de una
+   sola página la dispara el router con document.startViewTransition().
+   ========================================================================= */
+@view-transition { navigation: auto; }
+
+::view-transition-old(root) {
+  animation: vt-out 0.22s cubic-bezier(0.4, 0, 1, 1) both;
+}
+::view-transition-new(root) {
+  animation: vt-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes vt-out { to { opacity: 0; transform: translateY(-8px); } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(14px); } }
+
+/* La cabecera y el pie no deben desvanecerse en cada salto */
+.header, .topbar, .footer, .fab, .drawer { view-transition-name: none; }
+
+/* =========================================================================
+   2. Barra de progreso de lectura
+   ========================================================================= */
+.header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--brand), var(--brand-soft) 55%, var(--violet));
+  opacity: 0;
+  transition: opacity var(--mid);
+}
+.header.is-stuck::after { opacity: 1; }
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .header::after {
+      animation: progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+@keyframes progress { to { transform: scaleX(1); } }
+
+/* =========================================================================
+   3. Revelado ligado al scroll
+   Sustituye al observador de JavaScript donde el navegador lo soporta:
+   el avance va atado a la posición real, no a un disparo único.
+   ========================================================================= */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      animation: reveal both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 26%;
+      transition: none;
+    }
+  }
+}
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(38px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Las tarjetas de una rejilla entran escalonadas */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .pgrid > *, .bento > *, .services > *, .stores > * {
+      animation: reveal both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 20%;
+    }
+  }
+}
+
+/* =========================================================================
+   4. Titular partido en palabras
+   ========================================================================= */
+.split-word {
+  display: inline-block;
+  animation: wordIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--i) * 70ms + 120ms);
+}
+@keyframes wordIn {
+  from { opacity: 0; transform: translateY(0.42em) rotate(2deg); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+/* El recuadro que contiene cada palabra evita que el desenfoque se recorte */
+.split-line { display: block; overflow: visible; }
+
+/* Entrada del resto del bloque, encadenada con el titular */
+.fade-up {
+  animation: reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+/* =========================================================================
+   5. Foco que sigue al cursor
+   --mx / --my las actualiza ui.js sobre el elemento apuntado.
+   ========================================================================= */
+.pcard::after,
+.service::after,
+.store::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 50%),
+              rgba(255, 118, 69, 0.10), transparent 62%);
+  opacity: 0;
+  transition: opacity var(--mid);
+}
+.pcard:hover::after,
+.service:hover::after,
+.store:hover::after { opacity: 1; }
+
+/* =========================================================================
+   6. Inclinación 3D en las piezas grandes del bento
+   ========================================================================= */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tile {
+    transform:
+      perspective(1100px)
+      rotateX(var(--rx, 0deg))
+      rotateY(var(--ry, 0deg))
+      translateY(var(--ty, 0px));
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  .tile:hover { --ty: -6px; }
+  .tile h3, .tile p, .tile__icon, .tile__go { transform: translateZ(28px); }
+}
+
+/* =========================================================================
+   7. Anillo animado en la llamada principal
+   ========================================================================= */
+@property --ring {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+.btn--ring { position: relative; z-index: 0; }
+.btn--ring::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(from var(--ring),
+              var(--brand), var(--violet), var(--cyan), var(--brand));
+  opacity: 0;
+  transition: opacity var(--mid);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .btn--ring:hover::before {
+    opacity: 1;
+    animation: spin 2.6s linear infinite;
+  }
+}
+@keyframes spin { to { --ring: 360deg; } }
+
+/* =========================================================================
+   8. Cinta cinética
+   ========================================================================= */
+.kinetic {
+  position: relative;
+  border-block: 1px solid var(--line);
+  background: var(--panel);
+  overflow: hidden;
+  padding-block: 20px;
+  display: grid;
+  gap: 10px;
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.kinetic__row {
+  display: flex;
+  gap: 40px;
+  width: max-content;
+  align-items: center;
+  animation: slide 42s linear infinite;
+}
+.kinetic__row--back { animation-direction: reverse; animation-duration: 54s; }
+.kinetic:hover .kinetic__row { animation-play-state: paused; }
+
+.kinetic__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 2.2vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.kinetic__item svg { width: 0.85em; height: 0.85em; color: var(--brand); }
+.kinetic__row--back .kinetic__item {
+  font-size: clamp(0.78rem, 1.1vw, 0.94rem);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-family: var(--font);
+}
+.kinetic__row--back .kinetic__item:hover { color: var(--brand); }
+.kinetic__sep { color: var(--brand); opacity: 0.55; font-size: 0.7em; }
+
+@keyframes slide { to { transform: translateX(-50%); } }
+
+/* =========================================================================
+   9. Detalles
+   ========================================================================= */
+/* Las imágenes de producto entran cuando terminan de cargar */
+.pcard__media img,
+.gallery__main img { animation: imgIn 0.6s var(--ease) both; }
+@keyframes imgIn { from { opacity: 0; transform: scale(1.03); } }
+
+/* Indicador de scroll del hero */
+.scrollcue {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.scrollcue__line {
+  width: 46px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--brand), transparent);
+  transform-origin: 0 50%;
+  animation: cue 2.6s var(--ease) infinite;
+}
+@keyframes cue {
+  0%, 100% { transform: scaleX(0.35); opacity: 0.4; }
+  50% { transform: scaleX(1); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .split-word, .fade-up, .pcard__media img, .gallery__main img { animation: none; }
+  .kinetic__row { animation: none; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}

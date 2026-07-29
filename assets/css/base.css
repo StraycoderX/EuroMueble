@@ -14,32 +14,36 @@
   --violet: #9a7cf5;
 
   /* Superficies (tema oscuro por defecto) */
-  --bg: #08090b;
-  --bg-2: #0e1013;
-  --panel: rgba(255, 255, 255, 0.045);
-  --panel-2: rgba(255, 255, 255, 0.075);
-  --line: rgba(255, 255, 255, 0.10);
+  --bg: #060607;
+  --bg-2: #0c0d10;
+  --panel: rgba(255, 255, 255, 0.04);
+  --panel-2: rgba(255, 255, 255, 0.07);
+  --line: rgba(255, 255, 255, 0.09);
   --line-strong: rgba(255, 255, 255, 0.20);
   --plate: #f4f1ec;           /* fondo claro bajo las fotos de producto */
 
   /* Texto */
-  --ink: #f4f1ec;
+  --ink: #f6f3ee;
   --ink-2: #cbc5bd;
-  --muted: #918b83;
+  --muted: #8b857d;
   --on-brand: #1a0d06;
 
   /* Efectos */
   --glow: 0 0 0 1px rgba(255, 118, 69, 0.35), 0 12px 48px -12px rgba(255, 118, 69, 0.45);
-  --shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.75);
-  --shadow-sm: 0 8px 24px -12px rgba(0, 0, 0, 0.6);
-  --blur: saturate(150%) blur(14px);
+  --shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.5), 0 30px 70px -30px rgba(0, 0, 0, 0.85);
+  --shadow-sm: 0 1px 3px -1px rgba(0, 0, 0, 0.4), 0 12px 30px -16px rgba(0, 0, 0, 0.7);
+  --blur: saturate(180%) blur(18px);
+  /* Filo de luz superior: lo que separa una superficie plana de una con cuerpo */
+  --hl: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --hl-strong: inset 0 1px 0 rgba(255, 255, 255, 0.13);
 
   /* Formas */
   --r-xs: 8px;
   --r-sm: 12px;
-  --r: 18px;
-  --r-lg: 26px;
-  --r-xl: 36px;
+  --r: 20px;
+  --r-lg: 28px;
+  --r-xl: 40px;
+  --r-2xl: 52px;
   --r-full: 999px;
 
   /* Ritmo */
@@ -62,11 +66,11 @@
 
 [data-theme='light'] {
   --ok: #0b7d76;          /* legible sobre fondo claro */
-  --bg: #f7f5f1;
+  --bg: #f6f4f0;
   --bg-2: #ffffff;
-  --panel: rgba(12, 10, 8, 0.035);
-  --panel-2: rgba(12, 10, 8, 0.06);
-  --line: rgba(12, 10, 8, 0.11);
+  --panel: rgba(12, 10, 8, 0.03);
+  --panel-2: rgba(12, 10, 8, 0.055);
+  --line: rgba(12, 10, 8, 0.10);
   --line-strong: rgba(12, 10, 8, 0.22);
   --plate: #ffffff;
   --ink: #14110e;
@@ -74,9 +78,11 @@
   --muted: #6d655c;
   --brand: #d9481c;
   --brand-soft: #ff7645;
-  --shadow: 0 24px 60px -28px rgba(20, 14, 8, 0.35);
-  --shadow-sm: 0 10px 24px -16px rgba(20, 14, 8, 0.35);
+  --shadow: 0 1px 2px rgba(20, 14, 8, 0.05), 0 30px 60px -34px rgba(20, 14, 8, 0.4);
+  --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04), 0 12px 26px -18px rgba(20, 14, 8, 0.35);
   --glow: 0 0 0 1px rgba(217, 72, 28, 0.25), 0 12px 40px -16px rgba(217, 72, 28, 0.35);
+  --hl: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --hl-strong: inset 0 1px 0 #fff;
   color-scheme: light;
 }
 
@@ -127,22 +133,25 @@ table { border-collapse: collapse; width: 100%; }
 h1, h2, h3, h4 {
   font-family: var(--display);
   font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
   text-wrap: balance;
 }
-h1 { font-size: clamp(2.5rem, 7vw, 5.25rem); }
-h2 { font-size: clamp(1.9rem, 4.4vw, 3.25rem); }
-h3 { font-size: clamp(1.15rem, 2vw, 1.5rem); }
+h1 { font-size: clamp(3rem, 8.5vw, 7rem); font-weight: 700; }
+h2 { font-size: clamp(2.1rem, 5.2vw, 4rem); }
+h3 { font-size: clamp(1.15rem, 2vw, 1.5rem); letter-spacing: -0.03em; line-height: 1.1; }
 p { text-wrap: pretty; }
+
+/* Contrapunto ligero dentro de un titular: peso bajo en cursiva */
+.thin { font-weight: 300; font-style: italic; letter-spacing: -0.03em; }
 
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.72rem;
+  gap: 10px;
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--muted);
 }

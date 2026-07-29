@@ -39,7 +39,8 @@ PAGES.forEach(([name, file]) => {
 });
 
 /* --- Estilos y scripts ---------------------------------------------------- */
-const css = [read('assets/css/base.css'), read('assets/css/app.css')].join('\n');
+const css = [read('assets/css/base.css'), read('assets/css/app.css'),
+             read('assets/css/motion.css')].join('\n');
 const js = [
   'assets/js/data.js',
   'assets/js/ui.js',
@@ -103,29 +104,39 @@ const ROUTER = `
      posición, para que los bloques se distingan sin salirse de la paleta. */
   var SECOND = ['#9a7cf5', '#5fe3dc', '#ffb169', '#d9481c'];
   function hash(s) { var h = 0, i; for (i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); }
+  function esc(s) {
+    return String(s || 'EUROMUEBLE').toUpperCase().slice(0, 38)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
 
-  EM.art = function (label) {
+  EM.art = function (label, wide) {
     var h = hash(label || 'euromueble');
     var second = SECOND[h % SECOND.length];
-    var x = 62 + (h % 5) * 8;
-    var y = 70 + ((h >> 4) % 4) * 7;
+    var x = 58 + (h % 5) * 9;
+    var y = 66 + ((h >> 4) % 4) * 9;
+    var H = wide ? 380 : 800;          /* los banners son anchos, no cuadrados */
     var svg =
-      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 ' + H + '" preserveAspectRatio="xMidYMid slice">' +
         '<defs>' +
           '<linearGradient id="b" x1="0" y1="0" x2="1" y2="1">' +
-            '<stop offset="0" stop-color="#181310"/><stop offset="1" stop-color="#2a1e17"/></linearGradient>' +
-          '<radialGradient id="g1" cx="22%" cy="18%" r="70%">' +
-            '<stop offset="0" stop-color="#ff7645" stop-opacity=".7"/>' +
+            '<stop offset="0" stop-color="#120e0b"/><stop offset="1" stop-color="#2e2018"/></linearGradient>' +
+          '<radialGradient id="g1" cx="38%" cy="28%" r="88%">' +
+            '<stop offset="0" stop-color="#ff7645" stop-opacity=".8"/>' +
             '<stop offset="1" stop-color="#ff7645" stop-opacity="0"/></radialGradient>' +
           '<radialGradient id="g2" cx="' + x + '%" cy="' + y + '%" r="55%">' +
             '<stop offset="0" stop-color="' + second + '" stop-opacity=".38"/>' +
             '<stop offset="1" stop-color="' + second + '" stop-opacity="0"/></radialGradient>' +
         '</defs>' +
-        '<rect width="1200" height="800" fill="url(#b)"/>' +
-        '<rect width="1200" height="800" fill="url(#g1)"/>' +
-        '<rect width="1200" height="800" fill="url(#g2)"/>' +
+        '<rect width="1200" height="' + H + '" fill="url(#b)"/>' +
+        '<rect width="1200" height="' + H + '" fill="url(#g1)"/>' +
+        '<rect width="1200" height="' + H + '" fill="url(#g2)"/>' +
         '<g stroke="rgba(255,255,255,.06)" stroke-width="1">' +
-          '<path d="M0 200h1200M0 400h1200M0 600h1200M300 0v800M600 0v800M900 0v800"/></g>' +
+          '<path d="M0 ' + (H / 4) + 'h1200M0 ' + (H / 2) + 'h1200M0 ' + (H * 0.75) +
+          'h1200M300 0v' + H + 'M600 0v' + H + 'M900 0v' + H + '"/></g>' +
+        /* Centrada: es lo único que sobrevive a cualquier recorte */
+        '<text x="600" y="' + (H / 2) + '" text-anchor="middle" dominant-baseline="middle" ' +
+          'font-family="system-ui,sans-serif" font-size="' + (wide ? 30 : 34) + '" font-weight="600" ' +
+          'letter-spacing="6" fill="rgba(255,255,255,.4)">' + esc(label) + '</text>' +
       '</svg>';
     return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   };
@@ -134,7 +145,7 @@ const ROUTER = `
     var img = e.target;
     if (!img || img.tagName !== 'IMG' || img.dataset.pid || img.dataset.art) return;
     img.dataset.art = '1';
-    img.src = EM.art(img.getAttribute('alt') || 'Euromueble');
+    img.src = EM.art(img.getAttribute('alt') || 'Euromueble', !!img.closest('.banner'));
   }, true);
 
   /* --- Navegación --------------------------------------------------------- */
@@ -160,6 +171,22 @@ const ROUTER = `
   }
   EM.go = go;
 
+  /* Misma transición que da el navegador entre páginas reales.
+     La transición es un adorno: si el navegador tarda en ejecutar el
+     callback o lo descarta, navegamos igual sin efecto. */
+  function navigate(href) {
+    var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var done = false;
+    function run() { if (done) return; done = true; go(href); }
+
+    if (!document.startViewTransition || still) { run(); return; }
+    try {
+      var vt = document.startViewTransition(run);
+      if (vt && vt.updateCallbackDone && vt.updateCallbackDone.catch) vt.updateCallbackDone.catch(run);
+    } catch (e) { run(); return; }
+    setTimeout(run, 120);
+  }
+
   document.addEventListener('click', function (e) {
     var a = e.target.closest('a[href]');
     if (!a || a.target === '_blank') return;
@@ -173,7 +200,7 @@ const ROUTER = `
     var search = EM.$('.search');
     if (search) { search.classList.remove('is-open'); }
     document.body.classList.remove('is-locked');
-    go(href);
+    navigate(href);
   });
 
   document.addEventListener('DOMContentLoaded', function () {

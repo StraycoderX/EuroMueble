@@ -34,6 +34,10 @@ python3 -m http.server 8000
 - **Cesta lateral** persistente en `localStorage`, con cantidades y barra de transporte gratis.
 - **Favoritos** persistentes, filtrables desde el catálogo (`?fav=1`).
 - **Tema oscuro/claro** con conmutador y preferencia recordada.
+- **Movimiento**: transición nativa entre páginas (`@view-transition`), revelado atado al
+  scroll (`animation-timeline: view()`), foco que sigue al cursor, inclinación 3D en el bento
+  y cinta cinética de doble carril. Todo es mejora progresiva: sin soporte, la página se ve
+  igual pero quieta.
 - **Accesibilidad**: navegación por teclado en menús y overlays, `aria-*`, foco visible,
   enlace de salto al contenido y respeto a `prefers-reduced-motion`.
 - **SEO**: datos estructurados de `Organization`/`Store` en la home y de `Product` en la ficha,
@@ -46,6 +50,7 @@ python3 -m http.server 8000
 assets/
   css/base.css      Tokens de diseño, reset, tipografía, botones y formularios
   css/app.css       Componentes y páginas
+  css/motion.css    Transiciones de vista, revelado por scroll, foco e inclinación
   js/data.js        Catálogo, taxonomía, tiendas y configuración de negocio
   js/ui.js          Iconos, helpers, tema, cabecera, buscador, carruseles, tarjetas
   js/store.js       Cesta y favoritos (localStorage) + carrito lateral
